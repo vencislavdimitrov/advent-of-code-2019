@@ -1,7 +1,6 @@
-input_file = File.read('./1.input').split(',').map(&:strip).map(&:to_i)
+input_file = File.read('./9.input').split(',').map(&:strip).map(&:to_i)
 
 def intcode(parameters, input, cursor, base)
-  result = nil
   while cursor < input.size do
     opcode = input[cursor] % 100
     first = ((input[cursor] % 10000) % 1000 ) / 100
@@ -22,7 +21,7 @@ def intcode(parameters, input, cursor, base)
       set_parameter input, third, cursor + 3, base, first_param * second_param
       cursor += 4
     when 3
-      return [input, cursor, result, base] if parameters.empty?
+      return [input, cursor, nil, base] if parameters.empty?
       case first
       when 0
         input[input[cursor+1]] = parameters.shift
@@ -34,9 +33,8 @@ def intcode(parameters, input, cursor, base)
       cursor += 2
     when 4
       first_param = get_parameter input, first, cursor + 1, base
-      result = first_param
       cursor += 2
-      return [input, cursor, result, base]
+      return [input, cursor, first_param, base]
     when 5
       first_param = get_parameter input, first, cursor + 1, base
       second_param = get_parameter input, second, cursor + 2, base
@@ -92,13 +90,20 @@ def set_parameter(input, mode, index, base, value)
   end
 end
 
-# pp intcode([1], input_file, 0, 0).last
-input, cursor, res, base = intcode([2], input_file, 0, 0)
-# input, cursor, res, base = intcode([], [109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99], 0, 0)
-m = [res]
+input, cursor, res, base = intcode([1], input_file, 0, 0)
+p1 = res
 while !res.nil?
-  input, cursor, res, base = intcode([2], input, cursor, base)
-  m << res
+  input, cursor, res, base = intcode([1], input, cursor, base)
+  p1 = res unless res.nil?
 end
 
-pp m.join ','
+pp p1
+
+input, cursor, res, base = intcode([2], input_file, 0, 0)
+p2 = res
+while !res.nil?
+  input, cursor, res, base = intcode([2], input, cursor, base)
+  p2 = res unless res.nil?
+end
+
+pp p2
