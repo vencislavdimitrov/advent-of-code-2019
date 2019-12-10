@@ -1,4 +1,4 @@
-input_file = File.read('./1.input').split(',').map(&:strip).map(&:to_i)
+input_file = File.read('./7.input').split(',').map(&:strip).map(&:to_i)
 
 def try(parameters, input, cursor)
   result = nil
@@ -63,6 +63,19 @@ def try(parameters, input, cursor)
     end
   end
 end
+
+m = []
+[0, 1, 2, 3, 4].permutation.each do |pm|
+  i1, c1, t1 = try [pm[0], 0], input_file.clone, 0
+  i2, c2, t2 = try [pm[1], t1], input_file.clone, 0
+  i3, c3, t3 = try [pm[2], t2], input_file.clone, 0
+  i4, c4, t4 = try [pm[3], t3], input_file.clone, 0
+  i5, c5, t5 = try [pm[4], t4], input_file.clone, 0
+  m << t5
+end
+
+pp m.max
+
 
 m = []
 [5, 6, 7, 8, 9].permutation.each do |pm|
