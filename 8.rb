@@ -1,4 +1,4 @@
-input_file = File.read('./1.input').split ''
+input_file = File.read('./8.input').split ''
 
 layers = input_file.each_slice(25 * 6).to_a
 
@@ -7,7 +7,7 @@ def count_digits(arr, digit)
 end
 l = layers.min { |l1, l2| count_digits(l1, 0) <=> count_digits(l2, 0) }
 
-# pp count_digits(l, 1) * count_digits(l, 2)
+pp count_digits(l, 1) * count_digits(l, 2)
 
 final_image = '2' * 150
 
