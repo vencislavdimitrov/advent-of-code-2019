@@ -1,6 +1,5 @@
 input_file = File.read('./10.input').split.map { |s| s.split '' }
 
-start = Time.now
 def angles(input, x, y)
   res = []
   (0...input.size).each do |i|
@@ -24,7 +23,7 @@ res = []
 end
 
 pp res.max_by { |r| r.count }.count
-pp Time.now - start
+
 x = res.max_by { |r| r.count }.select { |r| r[0] == 0 }.first[1..] # find the coordinates of the station
 l = angles(input_file, x[0], x[1])
 l.sort! do |a, b|
